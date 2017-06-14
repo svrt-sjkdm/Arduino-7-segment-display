@@ -1,4 +1,4 @@
-/* Pin configuration:
+/* Arduino Uno Pin configuration:
  * 
  * PORTD PINS: 
  * 
@@ -28,7 +28,6 @@ unsigned int_to_bin(unsigned num) {
 void setup() {
   DDRD = B11111110;
   DDRB = B001111;
-  Serial.begin(9600);
 }
 
 void loop() {
