@@ -1,4 +1,4 @@
-/*  ARDUINO UNO
+/*  ARDUINO NANO
  *   
  *      SEGMENTS
  * A  B  C  D  E  F  G 
