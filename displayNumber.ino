@@ -7,8 +7,8 @@
  * D1 D2 D3 D4
  * B0 B1 B2 B3
  *      PORTD 
- * BXXXXXXXX
- *  XGFEDCBA
+ * B|X|X|X|X|X|X|X|X
+ *  |X|G|F|E|D|C|B|A
  *  
  */
 #include "math.h"
@@ -17,22 +17,25 @@ int num,numDigits;
 int displayNumber[4];
  
 void BCDdecoder(int num);
-void displayNum7Seg(int numDigits);
-char * convertNumberIntoArray(unsigned int number);
  
 void setup() {
   DDRD = B11111111;
   DDRB = B001111; 
-  num = 43;
-  // The number is converted into a reversed array
-  for(int i = 0; i < 4; i++) {
-    displayNumber[i] = convertNumberIntoArray(num)[i];
-  }
-  // The number of digits is calculated
-  numDigits = (int)(log10((float)num)) + 1; 
 }
 
 void loop() {
+  num = analogRead(A0);
+  // The number of digits is calculated
+  numDigits = (int)(log10((float)num)) + 1; 
+  // The number is converted into a reversed array
+  for(int i = 0; i < 4; i++) {
+    if(num == 0)
+      break;
+    else {
+      displayNumber[i] = num % 10;
+      num /= 10;
+    }
+  }
   // switch case to display the number in the 4 digit 7 segment display
     switch(numDigits){
     case 1:
@@ -114,18 +117,5 @@ void BCDdecoder(int num) {
       PORTD = B00000000;
     break;
   }
-}
-
-void displayNum7Seg(int numDigits) {
-}
-
-char * convertNumberIntoArray(unsigned int number) {
-    unsigned int length = (int)(log10((float)number)) + 1;
-    char * arr = (char *) malloc(length * sizeof(char)), * curr = arr;
-    do {
-        *curr++ = number % 10;
-        number /= 10;
-    } while (number != 0);
-    return arr;
 }
 
